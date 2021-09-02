@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Заголовок страницы</title>
+    <link href="../node_modules/@pnotify/core/dist/PNotify.css" rel="stylesheet" type="text/css" />
+    <link
+      href="../node_modules/@pnotify/mobile/dist/PNotifyMobile.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link
       rel="stylesheet"
@@ -13,19 +19,23 @@
     />
   </head>
   <body>
-    <form class="search-form" id="search-form">
-      <input
-        id="input"
-        type="text"
-        name="query"
-        autocomplete="off"
-        placeholder="Search images..."
-      />
-      <button id="btn" class="btn">Search</button>
-    </form>
-    <ul class="gallery">
-      <!-- Список <li> с карточками изображений -->
-    </ul>
+    <div class="container">
+      <form class="search-form" id="search-form">
+        <input
+          id="input"
+          type="text"
+          name="query"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
+        <button id="btn" class="btn">Search</button>
+        <button class="clear--btn hidden">Clear field</button>
+      </form>
+      <ul class="gallery hidden">
+        <!-- Список <li> с карточками изображений -->
+      </ul>
+      <button class="more hidden">Load more</button>
+    </div>
     <script src="./index.js"></script>
   </body>
 </html>

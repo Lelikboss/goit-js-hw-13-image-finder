@@ -1,54 +1,72 @@
 import './sass/main.scss';
 import { refs } from './js/refs';
-import { submitH } from './js/apiService';
-
+import generateImg from './js/apiService.js';
+import { renderCollection, hidden } from './js/marcup.js';
+import debounce from 'lodash.debounce';
+import scrollIntoView from './js/scroll.js';
+import { alert } from '../node_modules/@pnotify/core/dist/PNotify.js';
+import '../node_modules/@pnotify/core/dist/BrightTheme.css';
+import '../node_modules/@pnotify/core/dist/Material.css';
+import { openLargeImg } from './js/large-img.js';
+// import * as basicLightbox from 'basiclightbox';
+// import '../node_modules/basiclightbox/dist/basiclightbox.min.css';
 let currentPage = 1;
 
-const hendlerSubmit = e => {
+const searchImgFromAPI = e => {
   e.preventDefault();
-  // innerHTML
+  // hidden();
+  destroyContent();
+  generate();
+};
+const generate = () => {
   const value = refs.inputEl.value;
-  fetch(
-    `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${value}&page=${currentPage}&per_page=12&key=23189092-912e167e41c5e7d499821c37e`,
-  )
-    .then(response => response.json())
-    .then(result => renderCollection(result.hits))
-    .catch(err => console.log(err));
+  generateImg({ value, currentPage })
+    // .then(result => renderCollection(result.hits))
+    // .then(result => console.log(result.hits.length))
+    .then(result => {
+      if (result.hits.length === 0) {
+        alert('This image does not exist');
+      }
+      if (result.hits.length === 12) {
+        renderCollection(result.hits);
+        refs.galleryContainer.classList.remove('hidden');
+        refs.loadMoreBtn.classList.remove('hidden');
+        refs.clearFieldBtn.classList.remove('hidden');
+      } else {
+        refs.clearFieldBtn.classList.remove('hidden');
+        refs.loadMoreBtn.classList.add('hidden');
+        renderCollection(result.hits);
+      }
+    })
+    .then(() => currentPage++);
 };
 
-// function createItem({ webformatURL, tags }) {
-//   const article = `<article>
-//     <img src='${webformatURL}' alt='${tags}'/>
-//   </article>
-// `;
-//   refs.galleryContainer.insertAdjacentHTML('beforeend', article);
-// }
-function createGalleryItem({ webformatURL, tags, likes, views, comments, downloads }) {
-  const article = `<div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" />
+const destroyContent = () => {
+  refs.galleryContainer.innerHTML = '';
+  currentPage = 1;
+};
 
-  <div class="stats">
-    <p class="stats-item">
-      <i class="material-icons">thumb_up</i>
-      ${likes}
-    </p>
-    <p class="stats-item">
-      <i class="material-icons">visibility</i>
-      ${views}
-    </p>
-    <p class="stats-item">
-      <i class="material-icons">comment</i>
-      ${comments}
-    </p>
-    <p class="stats-item">
-      <i class="material-icons">cloud_download</i>
-      ${downloads}
-    </p>
-  </div>
-</div>`;
-  refs.galleryContainer.insertAdjacentHTML('beforeend', article);
-}
-function renderCollection(arr) {
-  arr.forEach(el => createGalleryItem(el));
-}
-refs.formEl.addEventListener('submit', hendlerSubmit);
+const clearFieldOnClick = e => {
+  e.preventDefault();
+  refs.inputEl.value = '';
+  refs.galleryContainer.innerHTML = '';
+  refs.galleryContainer.classList.add('hidden');
+  currentPage = 1;
+  hiddenBtn();
+};
+const hiddenBtn = () => {
+  refs.loadMoreBtn.classList.add('hidden');
+  refs.clearFieldBtn.classList.add('hidden');
+};
+// const openLargeImg = e => {
+//   const largeImg = e.target.dataset.source;
+//   const instance = basicLightbox.create(`
+// <img src="${largeImg}"/>
+// `);
+//   instance.show();
+// };
+refs.galleryContainer.addEventListener('click', openLargeImg);
+refs.clearFieldBtn.addEventListener('click', clearFieldOnClick);
+refs.formEl.addEventListener('submit', searchImgFromAPI);
+refs.loadMoreBtn.addEventListener('click', debounce(generate, 500));
+refs.loadMoreBtn.addEventListener('click', debounce(scrollIntoView, 1500));
