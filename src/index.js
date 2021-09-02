@@ -8,7 +8,8 @@ import { alert } from '../node_modules/@pnotify/core/dist/PNotify.js';
 import '../node_modules/@pnotify/core/dist/BrightTheme.css';
 import '../node_modules/@pnotify/core/dist/Material.css';
 import * as basicLightbox from 'basiclightbox';
-import '../node_modules/basiclightbox/dist/basiclightbox.min.css';
+import 'basiclightbox/dist/basiclightbox.min.css';
+
 let currentPage = 1;
 
 const searchImgFromAPI = e => {
