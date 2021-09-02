@@ -7,8 +7,8 @@ import scrollIntoView from './js/scroll.js';
 import { alert } from '../node_modules/@pnotify/core/dist/PNotify.js';
 import '../node_modules/@pnotify/core/dist/BrightTheme.css';
 import '../node_modules/@pnotify/core/dist/Material.css';
-// import * as basicLightbox from 'basiclightbox';
-// import 'basiclightbox/dist/basiclightbox.min.css';
+import * as basicLightbox from 'basiclightbox';
+import 'basiclightbox/dist/basiclightbox.min.css';
 
 let currentPage = 1;
 
@@ -57,20 +57,20 @@ const hiddenBtn = () => {
   refs.loadMoreBtn.classList.add('hidden');
   refs.clearFieldBtn.classList.add('hidden');
 };
-// const openLargeImg = e => {
-//   const largeImg = e.target.dataset.source;
+const openLargeImg = e => {
+  const largeImg = e.target.dataset.source;
 
-//   if (largeImg === undefined) {
-//     return;
-//   }
-//   console.log(largeImg);
-//   const instance = basicLightbox.create(`
-// <img src="${largeImg}"/>
-// `);
-//   instance.show();
-// };
+  if (largeImg === undefined) {
+    return;
+  }
+  console.log(largeImg);
+  const instance = basicLightbox.create(`
+<img src="${largeImg}"/>
+`);
+  instance.show();
+};
 
-// refs.galleryContainer.addEventListener('click', openLargeImg);
+refs.galleryContainer.addEventListener('click', openLargeImg);
 refs.clearFieldBtn.addEventListener('click', clearFieldOnClick);
 refs.formEl.addEventListener('submit', searchImgFromAPI);
 refs.loadMoreBtn.addEventListener('click', debounce(generate, 500));
