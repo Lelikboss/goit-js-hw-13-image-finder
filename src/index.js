@@ -1,3 +1,5 @@
+import * as basicLightbox from 'basiclightbox';
+import 'basiclightbox/dist/basicLightbox.min.css';
 import './sass/main.scss';
 import { refs } from './js/refs';
 import generateImg from './js/apiService.js';
@@ -7,8 +9,6 @@ import scrollIntoView from './js/scroll.js';
 import { alert } from '../node_modules/@pnotify/core/dist/PNotify.js';
 import '../node_modules/@pnotify/core/dist/BrightTheme.css';
 import '../node_modules/@pnotify/core/dist/Material.css';
-import * as basicLightbox from 'basiclightbox';
-import 'basiclightbox/dist/basiclightbox.min.css';
 
 let currentPage = 1;
 
