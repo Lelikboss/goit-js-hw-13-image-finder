@@ -1,5 +1,5 @@
 import * as basicLightbox from 'basiclightbox';
-import '../../node_modules/basiclightbox/dist/basiclightbox.min.css';
+import '../node_modules/basiclightbox/dist/basiclightbox.min.css';
 export const openLargeImg = e => {
   const largeImg = e.target.dataset.source;
 
